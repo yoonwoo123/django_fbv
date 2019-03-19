@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Board(models.Model):
@@ -10,3 +11,6 @@ class Board(models.Model):
     
     def __str__(self):
         return f'<Board ({self.id})> : {self.title}' 
+        
+    def get_absoulte_url(self):
+        return reverse('boards:detail', args=[self.pk])

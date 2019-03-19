@@ -6,4 +6,5 @@ app_name = 'boards'
 urlpatterns = [
     path('', views.index, name="index"),
     path('new/', views.create, name="create"),
+    path('<int:board_pk>/', views.detail, name="detail"),
 ]
