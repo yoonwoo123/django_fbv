@@ -13,3 +13,14 @@ class BoardForm(forms.ModelForm):
     class Meta:
         model = Board
         fields = ['title', 'content']
+        widgets = {'title': forms.TextInput(attrs={
+            'placeholder':'제목을 입력해주세요.', 'class': 'title'}),
+                   'content': forms.Textarea(attrs={
+            'placeholder':'내용을 입력해주세요.', 'class': 'content'})
+        }
+        error_messages = {'title': {
+            'required': '제목을 반드시 입력해주세요.'
+        }, 'content': {
+            'required': '내용을 반드시 입력해주세요.'
+        }
+    }
