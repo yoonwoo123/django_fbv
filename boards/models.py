@@ -12,5 +12,5 @@ class Board(models.Model):
     def __str__(self):
         return f'<Board ({self.id})> : {self.title}' 
         
-    def get_absoulte_url(self):
+    def get_absolute_url(self):
         return reverse('boards:detail', args=[self.pk])
