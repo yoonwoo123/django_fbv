@@ -1,0 +1,12 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+<form method="POST">
+    {% csrf_token %}
+    {{ board_form.as_p }}
+    <!--<input type="text" name="title">-->
+    <!--<textarea name="content"></textarea>-->
+    <input type="submit">
+</form>
+
+
+{% endblock %}
