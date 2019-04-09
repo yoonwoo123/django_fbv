@@ -126,3 +126,6 @@ STATICFILES_DIRS = [
     ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# LOGIN_URL = '/accounts/login' # default 로 들어가있는값
+# AUTH_USER_MODEL = 'auth.User' # default 로 들어가있는값
