@@ -3,14 +3,19 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Board
 from .forms import BoardForm
-import pprint
+import pprint, hashlib
 from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 def index(request):
     pprint.pprint(request.user.is_superuser)
     boards = Board.objects.order_by('-pk')
-    context = {'boards': boards}
+    if request.user.is_authenticated:
+        gravatar_url = hashlib.md5(request.user.email.strip().lower().encode('utf-8')).hexdigest()
+    else:
+        gravatar_url = None
+    # d0e53a9a9bbc9cf481144a929930f41c
+    context = {'boards': boards, 'gravatar_url': gravatar_url}
     return render(request, 'boards/index.html', context)
 
 @login_required    

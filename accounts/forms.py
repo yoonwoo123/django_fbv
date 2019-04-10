@@ -1,14 +1,18 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserChangeForm
+from django.conf import settings
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-# class UserForm(forms.ModelForm): # ModelForm 과 그냥 form의 차이
+# class UserForm(forms.ModelForm):
 #     class Meta:
 #         model = get_user_model()
-#         # fields = '__all__'
-#         fields = ['username', 'password']
-
-class UserCustomChangeForm(UserChangeForm): # UserChangeForm 을 받아서 만든 커스텀폼
+#         fields = ['username',]
+class UserCustomCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ('email', 'first_name', 'last_name',)
+        fields = ('username', 'password1', 'password2', 'email',)
+    
+class UserCustomChangeForm(UserChangeForm):
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'email', 'first_name', 'last_name',)

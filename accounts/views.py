@@ -6,22 +6,23 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 
-from .forms import UserCustomChangeForm
+from .forms import UserCustomChangeForm, UserCustomCreationForm
+
 # Create your views here.
 @require_http_methods(["GET", "POST"])
 def signup(request):
     if request.user.is_authenticated:
         return redirect('boards:index')
     if request.method == 'POST':
-        user_form = UserCreationForm(request.POST)
+        user_form = UserCustomCreationForm(request.POST)
         if user_form.is_valid():
             user = user_form.save()
             auth_login(request, user)
             return redirect('boards:index')
     else:
-        user_form = UserCreationForm()
+        user_form = UserCustomCreationForm()
     context = {'user_form': user_form}
     return render(request, 'accounts/signup.html', context)
     
@@ -42,45 +43,64 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('boards:index')
-    
-    
+
 @login_required
-@require_http_methods(["POST"]) # 삭제는 GET요청을 아예 받지 않기 때문에 POST만 해줘도 상관없다.
+# @require_http_methods(["POST"])
+@require_POST
 def delete(request):
-    # if request.method == 'POST':
-    # 유저 오브젝트를 가져와서 삭제한다.
     request.user.delete()
     return redirect('boards:index')
-    
+  
 # @login_required
 # def delete(request):
 #     if request.method == 'POST':
-#     request.user.delete()
+#         request.user.delete()
 #     return redirect('boards:index')
 
-@require_http_methods(["GET", "POST"]) # GET과 POST를 두개만 받으면서 if else로 걸러준다. 
+@require_http_methods(["GET", "POST"])
 def update(request):
     # user_form = UserChangeForm()
     if request.method == 'POST':
-
         user_form = UserCustomChangeForm(request.POST, instance=request.user)
-        if user_form.is_valid(): # 만약에 유저 폼이 유효하다면 유저폼을 저장하고
+        if user_form.is_valid():
             user_form.save()
             return redirect('boards:index')
     else:
         user_form = UserCustomChangeForm(instance=request.user)
     context = {'user_form': user_form}
     return render(request, 'accounts/update.html', context)
-    
+
 @login_required
 def password(request):
     if request.method == 'POST':
-        user_form = PasswordChangeForm(request.user, request.POST) # 순서 주의 !
+        user_form = PasswordChangeForm(request.user, request.POST) # 순서 주의!
         if user_form.is_valid():
             user = user_form.save()
             update_session_auth_hash(request, user)
             return redirect('boards:index')
     else:
-        user_form = PasswordChangeForm(request.user) # instance= 아님 주의
+        user_form = PasswordChangeForm(request.user) # instance= 아님 주의!
     context = {'user_form': user_form}
     return render(request, 'accounts/update.html', context)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
