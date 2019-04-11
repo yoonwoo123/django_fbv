@@ -2,7 +2,7 @@
 
 {% block body %}
 <h1>{{ board.pk }}번째 글</h1>
-<h2>{{ board.title }}</h2>
+<h2>제목 : {{ board.title }}</h2>
 <h3>작성자 : {{ board.user.username }}</h3>
 <p>조회수 : {{ board.hit }}</p>
 <hr>
@@ -23,8 +23,9 @@
     </form>
     
     <a href= "{% url 'boards:edit' board.pk %}"><input type="submit" value="수정"></a>
-
+    <br>
 {% endif %}
+<br>
 
-<a href= "{% url 'boards:index' %}"><input type="submit" value="목록"></a>
+<!--<a href= "{% url 'users:detail' user.pk %}"><input type="submit" value="해당 유저 프로필 가기"></a>-->
 {% endblock %}

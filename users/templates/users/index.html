@@ -1,0 +1,16 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+<a href = "{% url 'boards:index' %}">게시판 가기</a>
+<br>
+<br>
+<h1> 유저 목록 </h1>
+{% for user in users %}
+    <a>{{ user.username }}</a> &nbsp;/ &nbsp; <a>{{ user.pk }}</a> 
+    <br>
+    <a href = "{% url 'users:detail' user.pk %}"> 프로필 보러가기</a>
+    
+    <br>
+    <br>
+{% endfor %}
+
+{% endblock %}

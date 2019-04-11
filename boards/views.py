@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 def index(request):
-    # pprint.pprint(request.user.is_superuser)
+    pprint.pprint(request.user)
     boards = Board.objects.order_by('-pk')
     context = {'boards': boards}
     return render(request, 'boards/index.html', context)
@@ -40,6 +40,15 @@ def detail(request, board_pk):
     board.save()
     context = {'board': board}
     return render(request, 'boards/detail.html', context)
+  
+  
+def userdetail(request, board_pk):
+    board = get_object_or_404(Board, pk=board_pk)
+    board.save()
+    context = {'board': board}
+    return render(request, 'boards/userdetail.html', context)
+    
+    
   
 # @require_http_methods(["POST"])
 def delete(request, board_pk):

@@ -1,0 +1,24 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+
+{% load gravatar %}
+<img src="https://s.gravatar.com/avatar/{{ user_detail.email|makehash }}?s=150&d=">
+<h2>이메일 : {{ user_detail.email }}</h2>
+<br>
+<h2>닉네임 : {{ user_detail.username }}</h2>
+<br>
+<h1> 쓴 글 목록 </h1>
+{% for board in boards %}
+<a href="{% url 'boards:detail' board.pk %}">{{ board.title }}</a>
+<br>
+{% endfor %}
+<br>
+<br>
+
+
+<form action="{% url 'accounts:delete' %}" method = "POST">
+    {% csrf_token %}
+    <input type="submit" value= "회원탈퇴">
+</form>
+
+{% endblock %}
